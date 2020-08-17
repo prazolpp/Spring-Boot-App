@@ -1,0 +1,2 @@
+rootProject.name='Swiping Sammies'
+include ':app'

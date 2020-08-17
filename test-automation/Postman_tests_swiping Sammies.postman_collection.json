@@ -1,0 +1,1121 @@
+{
+	"info": {
+		"_postman_id": "07bebb06-c254-4b67-8535-8200673c0766",
+		"name": "Swiping Sammies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REGISTRATION AND AUTHENTICATION",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7cbb008b-69ca-4f8d-8810-92308baaa214",
+								"exec": [
+									" pm.test(\"Check if successfully registered\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Successfully registered sammy.spartan5@sjsu.edu\");",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\",\n\t\"password\": \"sammyspartanPass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register with Non SJSU Email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0e84ace6-011d-4224-9a06-fa354eb9c26e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "b389cdbf-7180-4736-b562-3bfb36d09ba8",
+								"exec": [
+									" pm.test(\"Check if non-SJSU email can register\", function () {",
+									"      pm.expect(pm.response.text()).to.include(\"Invalid email ID. Please enter a SJSU Email Address.\");",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"notSpartan@gmail.com\",\n\t\"password\": \"badPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logging in with wrong password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5534729c-d20f-4fae-9912-9381e07c1c44",
+								"exec": [
+									" pm.test(\"Check if wrong password can be used to login\", function () {",
+									"      pm.expect(pm.response.text()).to.include(\"Incorrect email or password\");",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\",\n\t\"password\": \"NotsammyspartanPass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logging in with non-existant user name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9a8b64f-1567-4694-a0a5-cffabb59a14e",
+								"exec": [
+									" pm.test(\"Check if non existant user can login\", function () {",
+									"      pm.expect(pm.response.text()).to.include(\"Incorrect email or password\");",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"nonRegisteredemail@sjsu.edu\",\n\t\"password\": \"nonRegisPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register with the same email address again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97104a76-2d99-439d-bc88-d42ba032b2f6",
+								"exec": [
+									" pm.test(\"Register with same email again\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Failed to register user\");",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\",\n\t\"password\": \"sammyspartanPass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00624fa1-3aa4-421b-8f35-a9c7bd70f360",
+								"exec": [
+									" pm.test(\"Check if successfully registered\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Successfully registered sammy.spartan10@sjsu.edu\");",
+									" });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan10@sjsu.edu\",\n\t\"password\": \"sammyspartan10Pass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a841fa6c-ddda-4516-93ca-9a30064c53c4",
+								"exec": [
+									" pm.test(\"Check if successfully registered\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Successfully registered sammy.spartan15@sjsu.edu\");",
+									" });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan15@sjsu.edu\",\n\t\"password\": \"sammyspartan15Pass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "75cb5633-76c8-4189-9a3e-17e4bcde4e2d",
+								"exec": [
+									" pm.test(\"Check if successfully registered\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Successfully registered sammy.spartan20@sjsu.edu\");",
+									" });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan20@sjsu.edu\",\n\t\"password\": \"sammyspartan20Pass\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca7344fe-6e7f-47d2-aa2b-4835b6a41b28",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8dbfcb42-8f46-46bf-b58f-4c1145ba774f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "UPDATING INFORMATION TESTS",
+			"item": [
+				{
+					"name": "Updating the information with an email address not present in the database. ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1bdbafa-5870-4d88-901d-ef33a8d2275a",
+								"exec": [
+									"pm.test(\"Try updating information of non registered user\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Failed to update info for User: Notin Database\");",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"nonExistantEmail@sjsu.edu\",\n\t\"name\": \"Notin Database\",\n\t\"gender\": \"male\",\n\t\"bio\": \"I am a good boy\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if updating info works",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5fccdfdd-47da-4e9f-a4cf-86a7ac7b217e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "5f503105-354b-44a6-aeb0-bd2470e70eb9",
+								"exec": [
+									"pm.test(\"should update info of existant user\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Succeeded to update User Info for User: Sammy Spartan\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\",\n\t\"password\": \"sammyspartanPass\",\n\t\"name\": \"Sammy Spartan\",\n\t\"bio\": \"I am a proud spartan\",\n\t\"gender\": \"male\",\n\t\"preferredGender\": \"female\",\n\t\"age\": 21\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check for the updated info in database ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7873435-26c6-48fb-9ede-2e8f3805b379",
+								"exec": [
+									"pm.test(\"Check if the updated info exists\", function(){",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Sammy Spartan\");",
+									"    pm.expect(jsonData.bio).to.eql(\"I am a proud spartan\");",
+									"    pm.expect(jsonData.age).to.eql(21);",
+									"    pm.expect(jsonData.gender).to.eql(\"male\");",
+									"    pm.expect(jsonData.preferredGender).to.eql(\"female\");",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Infor User2 Female",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "533acb2c-4f76-4e6a-aeae-1c4a7c1606c7",
+								"exec": [
+									"pm.test(\"should update info of existant user\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Succeeded to update User Info for User: Samuela Sparta\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan10@sjsu.edu\",\n\t\"password\": \"sammyspartan10Pass\",\n\t\"name\": \"Samuela Sparta\",\n\t\"bio\": \"Looking for an outgoing spartan\",\n\t\"gender\": \"female\",\n\t\"preferredGender\": \"male\",\n\t\"age\": 21\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Info User3 Female",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca929ad4-c4ac-42ad-8d07-4111c1649e25",
+								"exec": [
+									"pm.test(\"should update info of existant user\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Succeeded to update User Info for User: Samantha Spartacus\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan15@sjsu.edu\",\n\t\"password\": \"sammyspartan15Pass\",\n\t\"name\": \"Samantha Spartacus\",\n\t\"bio\": \"I love reading books.\",\n\t\"gender\": \"female\",\n\t\"preferredGender\": \"male\",\n\t\"age\": 19\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Info User4 Male",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c4b22a5f-b612-4022-8e96-0860cae2582d",
+								"exec": [
+									"pm.test(\"should update info of existant user\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"Succeeded to update User Info for User: Samwell Tarly\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan20@sjsu.edu\",\n\t\"password\": \"sammyspartan20Pass\",\n\t\"name\": \"Samwell Tarly\",\n\t\"bio\": \"I am an aspiring maester. Hoping to find Gilly and Little Sam.\",\n\t\"gender\": \"male\",\n\t\"preferredGender\": \"female\",\n\t\"age\": 22\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a74c0973-00c5-41b9-8eed-e7eebe310b45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1147d9c2-842d-4531-984d-77281970866f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POTENTIALS",
+			"item": [
+				{
+					"name": "Check for potential matches",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dac31fc7-2c1a-4b91-8b16-c21952feda23",
+								"exec": [
+									"pm.test(\"should look for potential matches\", function(){",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].name).to.include(\"Samuela Sparta\");",
+									"    pm.expect(jsonData[1].name).to.include(\"Samantha Spartacus\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/potential",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"potential"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "LIKES TEST",
+			"item": [
+				{
+					"name": "Check if Liking Works (Sammy Likes Samuela)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58ba10d3-7cc3-43a4-b4ae-d88de290e033",
+								"exec": [
+									"pm.test(\"Sammy should succeed in liking Samuela\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"The Like table has been updated\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan5@sjsu.edu\",\n\t\"liked\":\"sammy.spartan10@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if Samuela can like Sammy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0b6834e3-c47d-4bb1-ac31-88855249a038",
+								"exec": [
+									"pm.test(\"Samuela should succeed in liking Sammy\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"The Like table has been updated\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan10@sjsu.edu\",\n\t\"liked\":\"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if Samantha can like Sammy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99c77dae-5165-4361-a1e5-cd7a1f528e81",
+								"exec": [
+									"pm.test(\"Samantha should succeed in liking Sammy\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"The Like table has been updated\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan15@sjsu.edu\",\n\t\"liked\":\"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sammy Likes Samantha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "84ba5b90-5222-40ce-b071-ae38189b54de",
+								"exec": [
+									"pm.test(\"Sammy should like Samantha\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"The Like table has been updated\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan5@sjsu.edu\",\n\t\"liked\":\"sammy.spartan15@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checked if one liked person was only stored once for Sammy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d7f443e6-a264-49f4-9178-3d548316efb5",
+								"exec": [
+									"pm.test(\"all emails liked by sammy should be returned\", () => {",
+									"    var jsonData = pm.response.json()",
+									"    pm.expect(jsonData[0]).to.include(\"sammy.spartan10@sjsu.edu\");",
+									"    pm.expect(jsonData[1]).to.include(\"sammy.spartan15@sjsu.edu\");",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Samwell likes Samantha",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "04be9ad0-5854-489d-b87c-ebb613df1f6b",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e1b0dff-30ab-463f-ba9f-f6d776756c73",
+								"exec": [
+									"pm.test(\"Samwell should like Samantha\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"The Like table has been updated\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan20@sjsu.edu\",\n\t\"liked\":\"sammy.spartan15@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/likes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "Check if Sammy matches with Samuela and Samantha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fd13b743-4ec1-479c-ac8a-1a7940c7715a",
+								"exec": [
+									"pm.test(\"Check if Sammy Matches with both Samuela and Samantha\", function(){",
+									"    let jsonData = pm.response.json()",
+									"    pm.expect(jsonData[0].name).to.include(\"Samuela Sparta\");",
+									"    pm.expect(jsonData[1].name).to.include(\"Samantha Spartacus\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"sammy.spartan5@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/matches",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if Samwell has matched with Samantha if Samantha hasn't liked him back",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28d63df3-4c5d-47f5-9a57-3c610c246705",
+								"exec": [
+									"pm.test(\"Check if Samwell matches with Samantha when Samantha hasn't liked him yet\", function(){",
+									"    pm.expect(pm.response.text()).to.include('false');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"liker\":\"sammy.spartan20@sjsu.edu\",\n\t\"liked\":\"sammy.spartan15@sjsu.edu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/isMatched",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"isMatched"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ed528bad-c31b-44dd-b0cb-11486478d471",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c1831a9c-e042-4189-b59f-50365958866d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f498aa1c-7b21-40e5-95ee-ad93cb868e9d",
+			"key": "url",
+			"value": "localhost:8081",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
